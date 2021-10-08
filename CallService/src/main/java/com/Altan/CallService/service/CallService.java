@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
 
 @Service
 public class CallService {
@@ -44,7 +45,10 @@ public class CallService {
         return callRepository.findAll();
     }
 
-    public void newCall(Call call){                     //Eger userda kayıtlı degilse arama yapamaz.
+
+
+    public void newCall(Call call) throws InterruptedException {                     //Eger userda kayıtlı degilse arama yapamaz.
+
         LocalDateTime now = LocalDateTime.now();
         Optional<User> userOptional = userRepository.findUserByPhone(call.getCallerPhone());
         Optional<User> calledOptional = userRepository.findUserByPhone(call.getCalledPhone());
@@ -55,6 +59,8 @@ public class CallService {
             call.setDate(now);
             callRepository.save(call);
             setCallFlag(true);
+            Thread.sleep(7000);
+            setCallFlag(false);
             setLastCalledPhoneNumber(call);
         }
     }

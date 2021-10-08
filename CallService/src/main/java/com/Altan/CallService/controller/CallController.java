@@ -20,7 +20,7 @@ public class CallController {
         return callService.getCalls();
     }
     @PostMapping
-    public void makeNewCall(@RequestBody Call call){
+    public void makeNewCall(@RequestBody Call call) throws InterruptedException {
         callService.newCall(call);
     }
 

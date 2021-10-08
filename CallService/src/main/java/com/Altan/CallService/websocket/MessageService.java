@@ -6,8 +6,9 @@ import com.Altan.CallService.repository.UserRepository;
 import com.Altan.CallService.service.CallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
-import java.util.List;
 
 @Service
 public class MessageService {
@@ -15,30 +16,48 @@ public class MessageService {
     private final CallRepository callRepository;
     private final CallService callService;
 
+
     @Autowired
     public MessageService(CallRepository callRepository, UserRepository userRepository, CallService callService){
         this.callRepository = callRepository;
         this.userRepository = userRepository;
         this.callService = callService;
+
     }
 
-    public List<Call> getCallHistory(String userPhone){
-        return callRepository.findCallsByCalledPhone(userPhone);
-    }
-
-    public Call notification(){
+    public String notification(String userPhone){
         Call tmpCall = new Call();
-        if (callService.getCallFlag() == true){
+        String message="no one is calling.";
+        if (callService.getCallFlag() == true) {
             tmpCall = callService.getLastCalledPhoneNumber();
-            callService.setCallFlag(false);
+
         }
-        return tmpCall;
+        if (tmpCall.getCallerPhone()==null){
+            Call call = new Call();
+            ArrayList<Call> tmpList = callRepository.findCallsByCalledPhoneAndIsSeen(userPhone,false);
+            ArrayList<Call> finalList = new ArrayList<Call>();
+            for (int i=0 ; i<tmpList.size() ; i++){
+                try {
+                    if (false == tmpList.get(i).getSeen() ) {
+                        call = tmpList.get(i);
+                        finalList.add(call);
+                        callRepository.delete(call);
+                        call.setSeen(true);
+                        callRepository.save(call);
+                    }
+                    else
+                        finalList=null;
+                }
+                catch (NullPointerException e){
+                    System.out.println("NullPointerException Caught");
+                }
+            }
+            return finalList.toString();
 
-
-
+        }
+        else
+            return tmpCall.getCallerPhone()+" is calling you ";
     }
-
-
 
 }
 

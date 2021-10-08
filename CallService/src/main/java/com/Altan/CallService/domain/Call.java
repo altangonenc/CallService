@@ -20,9 +20,15 @@ public class Call {
     private String calledPhone;
     private String callerPhone;
     private LocalDateTime date;
+    private Boolean isSeen=false;
 
     public Call() {
     }
+
+    public Call(Boolean isSeen) {
+        this.isSeen = isSeen;
+    }
+
     public Call(LocalDateTime date) {
         this.date = date;
     }
@@ -42,6 +48,14 @@ public class Call {
     public Call(String callerPhone, String calledPhone) {
         this.callerPhone = callerPhone;
         this.calledPhone = calledPhone;
+    }
+
+    public Boolean getSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
     }
 
     public Long getId() {
@@ -79,9 +93,11 @@ public class Call {
     @Override
     public String toString() {
         return "Call{" +
-                "calledPhone='" + calledPhone + '\'' +
+                "id=" + id +
+                ", calledPhone='" + calledPhone + '\'' +
                 ", callerPhone='" + callerPhone + '\'' +
                 ", date=" + date +
+                ", isSeen=" + isSeen +
                 '}';
     }
 }

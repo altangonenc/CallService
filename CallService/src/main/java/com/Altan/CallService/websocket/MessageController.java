@@ -1,11 +1,12 @@
 package com.Altan.CallService.websocket;
 
-import com.Altan.CallService.domain.Call;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
+
 
 @Controller
 public class MessageController {
@@ -17,9 +18,10 @@ public class MessageController {
 
     @MessageMapping("/hello")
     @SendToUser("/queue/reply")
-    public List<Call> getCallHistory(String username) {
-        return messageService.getCallHistory(username);
-    }
+
+        public String userNotification (String userPhone){
+            return messageService.notification(userPhone);
+        }
 
 
 
