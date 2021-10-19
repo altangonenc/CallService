@@ -1,9 +1,13 @@
 package com.Altan.CallService.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 @Entity(name = "users")
 @Table
+@ApiModel(value = "Users model documentation",description = "Model")
 public class User{
     @Id
     @SequenceGenerator(
@@ -15,8 +19,14 @@ public class User{
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+
+    @ApiModelProperty(value = "Unique id field of user object")
     private Long id;
+
+    @ApiModelProperty(value = "Username field for user object")
     private String name;
+
+    @ApiModelProperty(value = "User's phone number field for user object")
     private String phone;
 
     public User() {

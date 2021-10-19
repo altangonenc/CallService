@@ -1,10 +1,16 @@
 package com.Altan.CallService.domain;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "calls")
 @Table
+
+@ApiModel(value = "Calls model documentation",description = "Model")
 public class Call {
     @Id
     @SequenceGenerator(
@@ -16,10 +22,19 @@ public class Call {
             strategy = GenerationType.SEQUENCE,
             generator = "call_sequence"
     )
+    @ApiModelProperty(value = "Unique id field of call object")
     private Long id;
+
+    @ApiModelProperty(value = "Called phone field for call object")
     private String calledPhone;
+
+    @ApiModelProperty(value = "Caller phone field for call object")
     private String callerPhone;
+
+    @ApiModelProperty(value = "Date field for call object")
     private LocalDateTime date;
+
+    @ApiModelProperty(value = "--Is it seen by users?-- flag")
     private Boolean isSeen=false;
 
     public Call() {
