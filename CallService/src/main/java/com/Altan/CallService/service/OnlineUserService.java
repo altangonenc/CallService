@@ -7,6 +7,7 @@ import com.Altan.CallService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,16 +23,28 @@ public class OnlineUserService {
     }
 
     public void logInNewUser(String phoneNumber){
-        if (userRepository.findUserByPhone(phoneNumber) != null){
-            Optional<User> tmpUser = userRepository.findUserByPhone(phoneNumber);
-            Long a = tmpUser.get().getId();
-            User user = userRepository.findUserById(a);
-            OnlineUser onlineUser = new OnlineUser(user);
-            onlineUserRepository.save(onlineUser);
-        }
+        if (!onlineUserRepository.existsByUser(userRepository.findUserByPhone(phoneNumber))) {
+            if (userRepository.findUserByPhone(phoneNumber) != null) {
+                Optional<User> tmpUser = userRepository.findUserByPhone(phoneNumber);
+                Long a = tmpUser.get().getId();
+                User user = userRepository.findUserById(a);
+                OnlineUser onlineUser = new OnlineUser(user);
+                onlineUserRepository.save(onlineUser);
+            }
+        } else
+            System.out.println("This user is already online ");
     }
 
     public List<OnlineUser> getOnlineUsers(){
         return onlineUserRepository.findAll();
+    }
+
+    @Transactional
+    public void logOutUser(String phoneNumber) throws IllegalStateException{
+        boolean exists = onlineUserRepository.existsByUser(userRepository.findUserByPhone(phoneNumber));
+        if(!exists){
+            throw new IllegalStateException("user with phoneNumber "+phoneNumber+" is not currently online.");
+        }
+        onlineUserRepository.deleteById(onlineUserRepository.findOnlineUserByUser_Phone(phoneNumber).getId());
     }
 }

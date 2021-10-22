@@ -1,9 +1,9 @@
 version: "3.4"
 services:
   CallService:
-    container_name: project-websocket
+    container_name: call_service
     tty: true
-    image: d6f5d4fdda38
+    image: f3eb2848a4b8
     ports:
       - "8080:8080"
   postgres:

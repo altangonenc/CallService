@@ -1,6 +1,5 @@
 package com.Altan.CallService.domain;
 
-
 import javax.persistence.*;
 
 @Entity(name = "online_users")

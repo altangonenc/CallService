@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import static com.Altan.CallService.security.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
-    USER(Sets.newHashSet(CALL_WRITE)),
-    ADMIN(Sets.newHashSet(USER_READ,USER_WRITE,CALL_READ,CALL_WRITE));
+    USER(Sets.newHashSet(CALL_WRITE,ONLINE_WRITE)),
+    ADMIN(Sets.newHashSet(USER_READ,USER_WRITE,CALL_READ,CALL_WRITE,ONLINE_READ));
     //(ApplicationUserPermission.USER_CALL,......+++++add demand.....)
 
     private final Set<ApplicationUserPermission> permission;

@@ -4,7 +4,9 @@ public enum ApplicationUserPermission {
     CALL_READ("call:read"),
     CALL_WRITE("call:write"),
     USER_READ("user:read"),
-    USER_WRITE("user:write");
+    USER_WRITE("user:write"),
+    ONLINE_WRITE("online:write"),
+    ONLINE_READ("online:read");
 
 
 
